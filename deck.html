@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complia | Pitch Deck</title>
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-light: #111d33;
+    --navy-mid: #162238;
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+    --blue-glow: rgba(37, 99, 235, 0.15);
+    --emerald: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.15);
+    --amber: #f59e0b;
+    --amber-glow: rgba(245, 158, 11, 0.12);
+    --red: #ef4444;
+    --red-glow: rgba(239, 68, 68, 0.12);
+    --white: #ffffff;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--navy);
+    color: var(--gray-200);
+    line-height: 1.6;
+  }
+
+  /* SLIDE SYSTEM */
+  .slide {
+    min-height: 100vh; padding: 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .slide-number {
+    position: absolute; top: 2rem; right: 3rem;
+    font-size: 0.75rem; color: var(--gray-600); font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+  .slide-label {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--blue-light); font-weight: 600; margin-bottom: 1rem;
+  }
+  .slide h1 {
+    font-size: 3.25rem; font-weight: 800; color: var(--white);
+    letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem;
+  }
+  .slide h2 {
+    font-size: 2.25rem; font-weight: 800; color: var(--white);
+    letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.25rem;
+  }
+  .slide h3 {
+    font-size: 1.3rem; font-weight: 700; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .slide p { color: var(--gray-400); line-height: 1.7; }
+  .slide p.lead { font-size: 1.15rem; max-width: 700px; }
+
+  /* COVER SLIDE */
+  .cover { text-align: center; align-items: center; }
+  .cover::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px; height: 900px; border-radius: 50%;
+    background: radial-gradient(circle, var(--blue-glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cover .logo {
+    font-size: 4rem; font-weight: 800; color: var(--white);
+    letter-spacing: -0.03em; margin-bottom: 0.5rem; position: relative;
+  }
+  .cover .logo span { color: var(--blue-light); }
+  .cover .tagline {
+    font-size: 1.5rem; color: var(--gray-400); margin-bottom: 3rem; position: relative;
+  }
+  .cover .meta {
+    font-size: 0.85rem; color: var(--gray-600); position: relative;
+  }
+  .cover-nav {
+    position: relative; display: flex; gap: 1rem; justify-content: center;
+    margin-top: 2rem; flex-wrap: wrap;
+  }
+  .cover-nav a {
+    color: var(--blue-light); text-decoration: none; font-size: 0.85rem;
+    padding: 0.4rem 1rem; border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 8px; transition: all 0.2s;
+  }
+  .cover-nav a:hover { background: var(--blue-glow); }
+
+  /* GRIDS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+  /* CARDS */
+  .card {
+    padding: 1.75rem; background: var(--navy-light);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 14px;
+  }
+  .card h4 {
+    font-size: 1rem; color: var(--white); font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .card p { font-size: 0.88rem; color: var(--gray-400); }
+
+  /* STAT BOXES */
+  .stat-box {
+    padding: 2rem; text-align: center;
+    background: var(--navy-light); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+  }
+  .stat-box .number {
+    font-size: 2.5rem; font-weight: 800; margin-bottom: 0.35rem;
+  }
+  .stat-box .label { font-size: 0.85rem; color: var(--gray-400); }
+  .blue { color: var(--blue-light); }
+  .emerald { color: var(--emerald); }
+  .amber { color: var(--amber); }
+  .red { color: var(--red); }
+  .white { color: var(--white); }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left; padding: 0.75rem 1rem; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-500);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  td {
+    padding: 0.75rem 1rem; font-size: 0.88rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--gray-300);
+  }
+
+  /* BULLETS */
+  .bullet-list { list-style: none; padding-left: 1.25rem; }
+  .bullet-list li {
+    padding: 0.5rem 0; font-size: 0.95rem; color: var(--gray-300);
+    position: relative;
+  }
+  .bullet-list li::before {
+    content: '\25B8'; color: var(--blue-light);
+    position: absolute; left: -1.25rem; top: 0.5rem;
+  }
+
+  /* TIMELINE */
+  .deck-timeline { position: relative; }
+  .deck-timeline-item {
+    display: flex; gap: 1.5rem; margin-bottom: 1.75rem;
+  }
+  .deck-timeline-date {
+    width: 120px; flex-shrink: 0; text-align: right;
+    font-size: 0.8rem; font-weight: 600; color: var(--blue-light);
+    padding-top: 0.15rem;
+  }
+  .deck-timeline-content {
+    flex: 1; padding-bottom: 1.75rem;
+    border-left: 2px solid rgba(37, 99, 235, 0.3); padding-left: 1.5rem;
+    position: relative;
+  }
+  .deck-timeline-content::before {
+    content: ''; position: absolute; left: -7px; top: 0.3rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--blue); border: 3px solid var(--navy);
+  }
+  .deck-timeline-content h4 {
+    font-size: 1rem; color: var(--white); font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .deck-timeline-content p { font-size: 0.88rem; color: var(--gray-400); }
+
+  /* TAGS */
+  .tag {
+    display: inline-block; font-size: 0.7rem; padding: 0.2rem 0.65rem;
+    border-radius: 6px; font-weight: 600; margin-right: 0.35rem;
+  }
+  .tag-blue { background: var(--blue-glow); color: var(--blue-light); }
+  .tag-green { background: var(--emerald-glow); color: var(--emerald); }
+  .tag-amber { background: var(--amber-glow); color: var(--amber); }
+  .tag-red { background: var(--red-glow); color: var(--red); }
+
+  /* DIVIDER */
+  .divider {
+    width: 60px; height: 3px; background: var(--blue);
+    border-radius: 2px; margin: 1.5rem 0;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    height: 8px; background: var(--navy); border-radius: 4px;
+    overflow: hidden; margin: 0.5rem 0;
+  }
+  .progress-fill { height: 100%; border-radius: 4px; }
+
+  /* BACK LINK */
+  .back-link {
+    position: fixed; top: 1.5rem; left: 2rem; z-index: 100;
+    color: var(--gray-500); text-decoration: none; font-size: 0.85rem;
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--white); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .slide { padding: 3rem 1.5rem; }
+    .slide h1 { font-size: 2.25rem; }
+    .slide h2 { font-size: 1.6rem; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .deck-timeline-item { flex-direction: column; gap: 0.25rem; }
+    .deck-timeline-date { text-align: left; width: auto; }
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--blue-glow); border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 14px; padding: 2rem; margin-top: 2rem;
+  }
+  .highlight-box.green {
+    background: var(--emerald-glow); border-color: rgba(16, 185, 129, 0.3);
+  }
+  .highlight-box.red {
+    background: var(--red-glow); border-color: rgba(239, 68, 68, 0.3);
+  }
+  .highlight-box h4 { color: var(--white); font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .highlight-box p { font-size: 0.9rem; }
+
+  /* COMPETITOR TABLE */
+  .competitor-row {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.85rem 1.25rem; border-radius: 10px; margin-bottom: 0.5rem;
+    background: var(--navy-light); border: 1px solid rgba(255,255,255,0.04);
+  }
+  .competitor-name { width: 160px; flex-shrink: 0; font-weight: 600; color: var(--gray-300); font-size: 0.9rem; }
+  .competitor-focus { flex: 1; font-size: 0.82rem; color: var(--gray-500); }
+  .competitor-bar {
+    width: 120px; flex-shrink: 0;
+  }
+
+  /* FEATURE MATRIX */
+  .matrix-table td:first-child { font-weight: 600; color: var(--gray-300); }
+  .matrix-check { color: var(--emerald); font-weight: 700; text-align: center; }
+  .matrix-partial { color: var(--amber); font-weight: 700; text-align: center; }
+  .matrix-none { color: var(--gray-700); text-align: center; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">&larr; Back to Site</a>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide cover" id="cover">
+  <div class="slide-inner">
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">complia<span>.ai</span></a>
+    <div class="tagline">AI-Powered Compliance for Real Estate Brokerages</div>
+    <p style="color: var(--gray-400); font-size: 1.05rem; max-width: 600px; margin: 0 auto 2rem; position: relative;">
+      Every agent. Every file. Every state.<br>Always audit-ready.
+    </p>
+    <div class="meta">Investor Deck &bull; March 2026</div>
+    <div class="cover-nav">
+      <a href="#problem">Problem</a>
+      <a href="#market">Market</a>
+      <a href="#solution">Solution</a>
+      <a href="#product">Product</a>
+      <a href="#competition">Competition</a>
+      <a href="#pricing-slide">Pricing</a>
+      <a href="#gtm">Go-to-Market</a>
+      <a href="#research">Research</a>
+      <a href="#financials">Financials</a>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: THE PROBLEM -->
+<div class="slide" id="problem">
+  <div class="slide-number">02</div>
+  <div class="slide-inner">
+    <div class="slide-label">The Problem</div>
+    <h2>Managing brokers are personally liable for every agent's compliance &mdash; and they're tracking it with spreadsheets.</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <ul class="bullet-list">
+          <li>The NAR settlement (Aug 2024) rewrote brokerage compliance rules overnight</li>
+          <li><strong style="color: var(--white);">Mandatory written buyer broker agreements</strong> before every showing &mdash; tracked manually</li>
+          <li>50 states with different CE requirements, renewal cycles, forms, and advertising rules &mdash; all diverging</li>
+          <li>"Failure to supervise" is the <strong style="color:var(--red);">#1 charge</strong> against managing brokers</li>
+          <li>68% of brokerages lack the data necessary for compliance</li>
+          <li>One missed document can trigger <strong style="color: var(--red);">$2,500&ndash;$200,000</strong> in fines and settlements</li>
+        </ul>
+      </div>
+      <div>
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="stat-box">
+            <div class="number red">$200K+</div>
+            <div class="label">Avg negligence settlement</div>
+          </div>
+          <div class="stat-box">
+            <div class="number amber">$400M</div>
+            <div class="label">Lost to RE wire fraud/yr</div>
+          </div>
+          <div class="stat-box">
+            <div class="number red">$15K</div>
+            <div class="label">Max NAR ethics fine</div>
+          </div>
+          <div class="stat-box">
+            <div class="number amber">68%</div>
+            <div class="label">Lack compliance data</div>
+          </div>
+        </div>
+        <div class="highlight-box red" style="margin-top: 1rem;">
+          <h4>The Core Issue</h4>
+          <p>Compliance today is <strong>reactive</strong> (caught after violations), <strong>manual</strong> (spot-checking by overloaded brokers), and <strong>inconsistent</strong> (varies by office and agent). There is no AI-first compliance platform built for brokerages.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: WHY NOW -->
+<div class="slide" id="why-now">
+  <div class="slide-number">03</div>
+  <div class="slide-inner">
+    <div class="slide-label">Why Now</div>
+    <h2>A once-in-a-generation compliance disruption window</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <div class="deck-timeline">
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">Aug 2024</div>
+            <div class="deck-timeline-content">
+              <h4>NAR Settlement Takes Effect</h4>
+              <p>Mandatory buyer broker agreements, MLS compensation fields eliminated, new disclosure rules. Biggest rule change in decades.</p>
+            </div>
+          </div>
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">2024&ndash;2025</div>
+            <div class="deck-timeline-content">
+              <h4>State Fragmentation Accelerates</h4>
+              <p>States diverge on implementation. Multi-state brokerages face 50 different compliance matrices.</p>
+            </div>
+          </div>
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">2025&ndash;2026</div>
+            <div class="deck-timeline-content">
+              <h4>New Compliance Categories</h4>
+              <p>AI governance (CO AI Act), data privacy (15+ states), climate disclosure, cybersecurity mandates.</p>
+            </div>
+          </div>
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">2026+</div>
+            <div class="deck-timeline-content">
+              <h4>Enforcement Peaks</h4>
+              <p>DOJ antitrust enforcement, state commission audits accelerating, E&O carriers requiring compliance programs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <h4>&#9888;&#65039; The NAR Settlement Changed Everything</h4>
+          <p style="margin-top: 0.5rem;">Before Aug 2024, buyer agent compensation was embedded in the MLS. Now it's independently negotiated, creating a documentation and compliance burden that didn't exist 18 months ago. Brokerages that can't prove they followed the new rules face class action exposure.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <h4>&#127919; DOJ Is More Aggressive Than Ever</h4>
+          <p style="margin-top: 0.5rem;">The DOJ kept its antitrust investigation open even after the NAR settlement. Pattern-or-practice fair housing testing operations are increasing. Algorithmic discrimination is a new enforcement priority.</p>
+        </div>
+        <div class="card">
+          <h4>&#128200; E&O Insurance Is the Forcing Function</h4>
+          <p style="margin-top: 0.5rem;">E&O carriers are beginning to require documented compliance programs for coverage. Brokerages with systematic compliance tools will pay lower premiums &mdash; a direct, measurable ROI.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: MARKET SIZE -->
+<div class="slide" id="market">
+  <div class="slide-number">04</div>
+  <div class="slide-inner">
+    <div class="slide-label">Market Opportunity</div>
+    <h2>$300M+ total addressable market with no dominant player</h2>
+    <div class="divider"></div>
+    <div class="grid-4" style="margin-top: 2rem; margin-bottom: 2.5rem;">
+      <div class="stat-box">
+        <div class="number blue">106K</div>
+        <div class="label">US Brokerages</div>
+      </div>
+      <div class="stat-box">
+        <div class="number blue">3M</div>
+        <div class="label">Licensed Agents</div>
+      </div>
+      <div class="stat-box">
+        <div class="number blue">1.5M</div>
+        <div class="label">NAR Members</div>
+      </div>
+      <div class="stat-box">
+        <div class="number emerald">$25B</div>
+        <div class="label">RE Software Market by 2030</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div>
+        <h3>Revenue Potential by Segment</h3>
+        <table style="margin-top: 1rem;">
+          <tr>
+            <th>Segment</th>
+            <th>Count</th>
+            <th>Avg Price</th>
+            <th>Annual Rev</th>
+          </tr>
+          <tr>
+            <td>Small (10&ndash;49 agents)</td>
+            <td>~60,000</td>
+            <td>$200/mo</td>
+            <td style="color: var(--emerald); font-weight: 700;">$144M</td>
+          </tr>
+          <tr>
+            <td>Mid (50&ndash;499 agents)</td>
+            <td>~8,000</td>
+            <td>$1,500/mo</td>
+            <td style="color: var(--emerald); font-weight: 700;">$144M</td>
+          </tr>
+          <tr>
+            <td>Enterprise (500+)</td>
+            <td>~500</td>
+            <td>$10,000/mo</td>
+            <td style="color: var(--emerald); font-weight: 700;">$60M</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--white);">Total TAM</td>
+            <td></td>
+            <td></td>
+            <td style="color: var(--emerald); font-weight: 800; font-size: 1.1rem;">$348M/yr</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h3>Target Customer: The Sweet Spot</h3>
+        <div class="highlight-box" style="margin-top: 1rem;">
+          <h4>Mid-Size Brokerages (50&ndash;500 agents)</h4>
+          <p>Large enough to have real compliance pain. Too small for a dedicated compliance department. The managing broker is personally liable but can't review everything. They operate across 1&ndash;3 states with different rules. A single fine costs more than a year of software. <strong style="color: var(--white);">86% of all transactions flow through this segment.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: THE SOLUTION -->
+<div class="slide" id="solution">
+  <div class="slide-number">05</div>
+  <div class="slide-inner">
+    <div class="slide-label">The Solution</div>
+    <h2>Complia: The AI compliance officer that never sleeps</h2>
+    <div class="divider"></div>
+    <p class="lead" style="margin-bottom: 2.5rem;">Complia replaces reactive spot-checking with continuous, AI-powered compliance monitoring across every agent, every transaction, and every state &mdash; all from a single dashboard.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">&#128272;</div>
+        <h4>License & Credential Tracker</h4>
+        <p>Real-time license verification via ARELLO API. CE tracking across providers. E&O monitoring. Proactive alerts before anything lapses.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">&#128196;</div>
+        <h4>Transaction Compliance Engine</h4>
+        <p>AI document completeness checking against state-specific checklists. Buyer broker agreement tracking. Compliance health score per transaction.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">&#128225;</div>
+        <h4>Ad & Fair Housing Monitor</h4>
+        <p>Scans agent social media, websites, and listings for compliance. Catches missing brokerage names, biased language, and team name violations.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">&#128218;</div>
+        <h4>Regulatory Intelligence</h4>
+        <p>Monitors state and federal regulatory changes. Generates plain-English impact summaries. Creates compliance tasks when rules change.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">&#128176;</div>
+        <h4>Trust Account & Financial</h4>
+        <p>AI-assisted escrow reconciliation. Commingling risk detection. Wire fraud monitoring. Audit-ready reports per state format.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 1.75rem; margin-bottom: 0.75rem;">&#128200;</div>
+        <h4>Training & Supervision</h4>
+        <p>Compliance training tracking per agent per state. Risk pattern identification. Supervision documentation for duty-to-supervise proof.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: PRODUCT DEEP DIVE -->
+<div class="slide" id="product">
+  <div class="slide-number">06</div>
+  <div class="slide-inner">
+    <div class="slide-label">Product</div>
+    <h2>AI capabilities that don't exist anywhere else</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1.25rem;">What Complia Does That Nobody Else Can</h3>
+        <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--blue);">
+          <h4>NLP Listing Language Scanner</h4>
+          <p>Scans every listing description for biased, exclusionary, or preferential language before it goes live. Flags phrases like "perfect for young professionals" or "close to [specific house of worship]" and suggests compliant alternatives.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--emerald);">
+          <h4>Multi-State Compliance Engine</h4>
+          <p>Automatically applies the right rules based on transaction jurisdiction. Different CE hours, mandatory topics, forms, disclosure requirements, and advertising rules &mdash; all mapped to each state.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--amber);">
+          <h4>Predictive Risk Scoring</h4>
+          <p>Models agent behavior patterns (complaint history, training gaps, advertising errors, document completion rates) to predict which agents are most likely to have compliance issues &mdash; before they happen.</p>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--red);">
+          <h4>Steering Pattern Detection</h4>
+          <p>Analyzes showing data, search criteria vs. neighborhoods shown, and response times across demographic groups to flag potential fair housing steering patterns.</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1.25rem;">Key Technical Differentiators</h3>
+        <ul class="bullet-list">
+          <li><strong style="color: var(--white);">ARELLO API Integration</strong> &mdash; Gated access to the national license verification database. Application already submitted. Creates a data moat.</li>
+          <li><strong style="color: var(--white);">50-State Regulatory Rule Engine</strong> &mdash; Massive data mapping effort that's hard to replicate. Each state's specific requirements encoded and maintained.</li>
+          <li><strong style="color: var(--white);">Real-Time Ad Monitoring</strong> &mdash; Computer vision + NLP scans agent social media, websites, and print for compliance violations across platforms.</li>
+          <li><strong style="color: var(--white);">Natural Language Queries</strong> &mdash; "Show me all Arizona transactions missing seller disclosures" &mdash; compliance insights in plain English.</li>
+          <li><strong style="color: var(--white);">Regulatory Change Monitoring</strong> &mdash; NLP monitors state commission bulletins, legislative changes, and case law. Auto-generates impact summaries.</li>
+        </ul>
+        <div class="highlight-box green" style="margin-top: 1.5rem;">
+          <h4>The ARELLO Moat</h4>
+          <p>ARELLO (Association of Real Estate License Law Officials) maintains the only centralized database of license data across all 50 states. API access is gated &mdash; they vet applicants and charge for access. <strong style="color: var(--white);">Our application was submitted March 25, 2026.</strong> This creates a significant barrier to entry for competitors.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: COMPETITIVE LANDSCAPE -->
+<div class="slide" id="competition">
+  <div class="slide-number">07</div>
+  <div class="slide-inner">
+    <div class="slide-label">Competitive Landscape</div>
+    <h2>Incumbents bolt on compliance as an afterthought.<br>We build it as the core.</h2>
+    <div class="divider"></div>
+    <div style="margin-top: 2rem;">
+      <table>
+        <tr>
+          <th>Feature</th>
+          <th style="text-align:center;">Lone Wolf /<br>SkySlope</th>
+          <th style="text-align:center;">Dotloop<br>(Zillow)</th>
+          <th style="text-align:center;">ListedKit<br>AI</th>
+          <th style="text-align:center;">Loft47</th>
+          <th style="text-align:center; color: var(--blue-light);">Complia</th>
+        </tr>
+        <tr>
+          <td>Transaction Management</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-partial">&#9679;</td>
+        </tr>
+        <tr>
+          <td>Document Checklists</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-partial">&#9679;</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-check">&#10003;</td>
+        </tr>
+        <tr>
+          <td>AI Document Review</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check">&#10003;</td>
+          <td class="matrix-partial">&#9679;</td>
+          <td class="matrix-check">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Multi-State Compliance Engine</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check" style="color: var(--blue-light); font-size: 1.1rem;">&#10003;</td>
+        </tr>
+        <tr>
+          <td>License & CE Tracking (ARELLO)</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check" style="color: var(--blue-light); font-size: 1.1rem;">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Ad & Social Media Scanner</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check" style="color: var(--blue-light); font-size: 1.1rem;">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Fair Housing Language Monitor</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check" style="color: var(--blue-light); font-size: 1.1rem;">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Regulatory Change Alerts</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check" style="color: var(--blue-light); font-size: 1.1rem;">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Predictive Risk Scoring</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-none">&mdash;</td>
+          <td class="matrix-check" style="color: var(--blue-light); font-size: 1.1rem;">&#10003;</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">Price (per agent/mo)</td>
+          <td style="text-align: center;">$25&ndash;60</td>
+          <td style="text-align: center;">$29&ndash;49</td>
+          <td style="text-align: center;">$9.99/txn</td>
+          <td style="text-align: center;">$170/mo flat</td>
+          <td style="text-align: center; color: var(--emerald); font-weight: 700;">$12&ndash;25</td>
+        </tr>
+      </table>
+    </div>
+    <div class="highlight-box" style="margin-top: 2rem;">
+      <h4>The Gap</h4>
+      <p>87% of brokerages use AI daily &mdash; but almost entirely for marketing and lead gen, <strong style="color: var(--white);">not for compliance</strong>. Existing platforms treat compliance as a checkbox feature within transaction management. No one has built an AI-first compliance platform that continuously monitors, predicts, and prevents violations. <strong style="color: var(--white);">The compliance AI space is wide open.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: PRICING -->
+<div class="slide" id="pricing-slide">
+  <div class="slide-number">08</div>
+  <div class="slide-inner">
+    <div class="slide-label">Pricing Model</div>
+    <h2>One prevented violation pays for years of Complia</h2>
+    <div class="divider"></div>
+    <div class="grid-4" style="margin-top: 2rem;">
+      <div class="card" style="display: flex; flex-direction: column;">
+        <span class="tag tag-green" style="margin-bottom: 1rem; align-self: flex-start;">FREE</span>
+        <div style="font-size: 2rem; font-weight: 800; color: var(--white); margin-bottom: 0.25rem;">$0</div>
+        <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 1.25rem;">Up to 5 agents</div>
+        <ul class="bullet-list" style="font-size: 0.82rem; flex: 1;">
+          <li>License status check</li>
+          <li>Basic checklist</li>
+          <li>1 state</li>
+        </ul>
+        <div style="font-size: 0.75rem; color: var(--gray-500); margin-top: 1rem;">Acquisition funnel</div>
+      </div>
+      <div class="card" style="display: flex; flex-direction: column;">
+        <span class="tag tag-blue" style="margin-bottom: 1rem; align-self: flex-start;">STARTER</span>
+        <div style="font-size: 2rem; font-weight: 800; color: var(--white); margin-bottom: 0.25rem;">$12<span style="font-size: 0.85rem; color: var(--gray-500);">/agent/mo</span></div>
+        <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 1.25rem;">5&ndash;25 agents</div>
+        <ul class="bullet-list" style="font-size: 0.82rem; flex: 1;">
+          <li>License & CE tracking</li>
+          <li>Doc completeness checker</li>
+          <li>Compliance alerts</li>
+          <li>Up to 3 states</li>
+        </ul>
+        <div style="font-size: 0.75rem; color: var(--gray-500); margin-top: 1rem;">~$115/agent/yr (annual)</div>
+      </div>
+      <div class="card" style="display: flex; flex-direction: column; border-color: var(--blue); box-shadow: 0 0 25px var(--blue-glow);">
+        <span class="tag tag-blue" style="margin-bottom: 1rem; align-self: flex-start; background: var(--blue); color: white;">MOST POPULAR</span>
+        <div style="font-size: 2rem; font-weight: 800; color: var(--white); margin-bottom: 0.25rem;">$25<span style="font-size: 0.85rem; color: var(--gray-500);">/agent/mo</span></div>
+        <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 1.25rem;">25&ndash;200 agents</div>
+        <ul class="bullet-list" style="font-size: 0.82rem; flex: 1;">
+          <li>AI advertising scanner</li>
+          <li>Fair housing monitor</li>
+          <li>Regulatory alerts</li>
+          <li>Trust account tools</li>
+          <li>All 50 states</li>
+          <li>Audit-ready reports</li>
+        </ul>
+        <div style="font-size: 0.75rem; color: var(--gray-500); margin-top: 1rem;">~$240/agent/yr (annual)</div>
+      </div>
+      <div class="card" style="display: flex; flex-direction: column;">
+        <span class="tag tag-amber" style="margin-bottom: 1rem; align-self: flex-start;">ENTERPRISE</span>
+        <div style="font-size: 2rem; font-weight: 800; color: var(--white); margin-bottom: 0.25rem;">Custom</div>
+        <div style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 1.25rem;">200+ agents / franchises</div>
+        <ul class="bullet-list" style="font-size: 0.82rem; flex: 1;">
+          <li>API access & SSO</li>
+          <li>Custom integrations</li>
+          <li>Compliance advisor</li>
+          <li>Predictive risk scoring</li>
+          <li>Franchise dashboards</li>
+          <li>White-label</li>
+        </ul>
+        <div style="font-size: 0.75rem; color: var(--gray-500); margin-top: 1rem;">~$35&ndash;50/agent/mo</div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div class="highlight-box red">
+        <h4>Cost of Non-Compliance</h4>
+        <table style="margin-top: 0.75rem;">
+          <tr><td>State fine</td><td style="color: var(--red); font-weight: 700;">$2,500&ndash;$25,000</td></tr>
+          <tr><td>NAR ethics fine</td><td style="color: var(--red); font-weight: 700;">Up to $15,000</td></tr>
+          <tr><td>Negligence lawsuit</td><td style="color: var(--red); font-weight: 700;">$50K&ndash;$200K</td></tr>
+          <tr><td>License suspension</td><td style="color: var(--red); font-weight: 700;">Existential</td></tr>
+        </table>
+      </div>
+      <div class="highlight-box green">
+        <h4>Complia ROI (50-agent brokerage on Pro)</h4>
+        <table style="margin-top: 0.75rem;">
+          <tr><td>Monthly cost</td><td style="color: var(--emerald); font-weight: 700;">$1,250/mo</td></tr>
+          <tr><td>1 prevented state fine</td><td style="color: var(--emerald); font-weight: 700;">= 2&ndash;20 months paid</td></tr>
+          <tr><td>1 prevented lawsuit</td><td style="color: var(--emerald); font-weight: 700;">= 3&ndash;13 years paid</td></tr>
+          <tr><td>E&O premium reduction</td><td style="color: var(--emerald); font-weight: 700;">$1K&ndash;$5K/yr savings</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: GO-TO-MARKET -->
+<div class="slide" id="gtm">
+  <div class="slide-number">09</div>
+  <div class="slide-inner">
+    <div class="slide-label">Go-to-Market</div>
+    <h2>Proven playbook: founder-led sales, PLG, association partnerships</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1.25rem;">12-Month GTM Roadmap</h3>
+        <div class="deck-timeline">
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">Months 1&ndash;3</div>
+            <div class="deck-timeline-content">
+              <h4>Founder-Led Sales</h4>
+              <p>Close 5&ndash;10 brokerages from personal network. Get 3 video case studies with hard metrics. SkySlope and Sisu both started this way.</p>
+            </div>
+          </div>
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">Months 1&ndash;6</div>
+            <div class="deck-timeline-content">
+              <h4>Content Engine</h4>
+              <p>State-specific compliance checklists (gated downloads). Compliance blog. Guest on 5&ndash;10 RE podcasts. Monthly webinars for managing brokers.</p>
+            </div>
+          </div>
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">Months 3&ndash;6</div>
+            <div class="deck-timeline-content">
+              <h4>PLG + Local Associations</h4>
+              <p>Free tier with license checker as viral hook. Partner with 2&ndash;3 local Realtor boards as preferred vendor ($1K&ndash;$5K each).</p>
+            </div>
+          </div>
+          <div class="deck-timeline-item">
+            <div class="deck-timeline-date">Months 6&ndash;12</div>
+            <div class="deck-timeline-content">
+              <h4>Scale</h4>
+              <p>State association partnerships. Integration with SkySlope/Dotloop/Lone Wolf. Approach top 100 brokerages. Explore franchise HQ deals.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1.25rem;">Distribution Channels</h3>
+        <div class="card" style="margin-bottom: 1rem;">
+          <h4>&#127380; Association Partnerships</h4>
+          <p>State + local Realtor associations run vendor programs. "Preferred vendor" status = instant credibility + email list access + conference booth. NAR REALTOR Benefits Program (1.5M members) is the long-term goal.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem;">
+          <h4>&#128279; Integration Partnerships</h4>
+          <p>Integrate with tools brokerages already use. Each integration = a distribution channel. Sisu grew to 9,000+ teams through MoxiWorks integration alone.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem;">
+          <h4>&#127908; Content & Thought Leadership</h4>
+          <p>State-specific compliance content ranks well in search. Managing brokers consume industry podcasts (Sisu runs 150+ episodes). Compliance webinars convert because the topic is urgent.</p>
+        </div>
+        <div class="card">
+          <h4>&#127919; Conference Presence</h4>
+          <p><strong>Inman Connect</strong> (4,000+ attendees, Startup Alley), <strong>T3 Summit</strong> (C-suite only, most influential room in RE tech), <strong>NAR NXT</strong> (20,000+ attendees), state association conferences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: RESEARCH - COMPLIANCE LANDSCAPE -->
+<div class="slide" id="research">
+  <div class="slide-number">10</div>
+  <div class="slide-inner">
+    <div class="slide-label">Research Deep Dive</div>
+    <h2>The compliance landscape: what brokerages face today</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1rem;">NAR Code of Ethics (17 Articles)</h3>
+        <p style="font-size: 0.9rem; margin-bottom: 1.25rem;">Every NAR member is bound by the Code of Ethics. The most compliance-critical articles:</p>
+        <ul class="bullet-list" style="font-size: 0.85rem;">
+          <li><strong style="color:var(--white);">Article 1</strong> &mdash; Duty to Client (most frequently cited in complaints)</li>
+          <li><strong style="color:var(--white);">Article 2</strong> &mdash; No misrepresentation or concealment of material facts</li>
+          <li><strong style="color:var(--white);">Article 3</strong> &mdash; Cooperation with other brokers (reinterpreted post-settlement)</li>
+          <li><strong style="color:var(--white);">Article 9</strong> &mdash; All agreements in writing (cornerstone of post-settlement compliance)</li>
+          <li><strong style="color:var(--white);">Article 12</strong> &mdash; Truthful advertising, identifiable as from licensee</li>
+          <li><strong style="color:var(--white);">Article 16</strong> &mdash; Respect for exclusive relationships</li>
+        </ul>
+        <h3 style="margin: 2rem 0 1rem;">Post-Settlement Rules (Aug 2024)</h3>
+        <ul class="bullet-list" style="font-size: 0.85rem;">
+          <li>MLS can <strong style="color:var(--red);">no longer display buyer broker compensation</strong></li>
+          <li><strong style="color:var(--amber);">Written buyer broker agreement required</strong> before any property tour</li>
+          <li>Agreement must include specific, objective compensation amount</li>
+          <li>Statement that compensation is fully negotiable and not set by law</li>
+          <li>Clear Cooperation Policy modified &mdash; seller opt-out flexibility</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1rem;">Most Common Violations</h3>
+        <table style="font-size: 0.85rem;">
+          <tr>
+            <th>Violation</th>
+            <th>Consequence</th>
+          </tr>
+          <tr>
+            <td>Missing buyer broker agreement</td>
+            <td style="color: var(--red);">$500&ndash;$5,000 MLS fine</td>
+          </tr>
+          <tr>
+            <td>Failure to supervise agents</td>
+            <td style="color: var(--red);">License suspension; $1K&ndash;$25K fine</td>
+          </tr>
+          <tr>
+            <td>Advertising violations</td>
+            <td style="color: var(--amber);">$500&ndash;$5,000 state fine</td>
+          </tr>
+          <tr>
+            <td>Late/missing MLS entry</td>
+            <td style="color: var(--amber);">$500&ndash;$5,000 per occurrence</td>
+          </tr>
+          <tr>
+            <td>Trust account violations</td>
+            <td style="color: var(--red);">License revocation; up to $50K</td>
+          </tr>
+          <tr>
+            <td>Fair housing violations</td>
+            <td style="color: var(--red);">$21K&ndash;$100K+ HUD/DOJ fines</td>
+          </tr>
+          <tr>
+            <td>Commission disclosure failures</td>
+            <td style="color: var(--amber);">Class action exposure</td>
+          </tr>
+        </table>
+        <h3 style="margin: 2rem 0 1rem;">Managing Broker Pain Points</h3>
+        <div style="font-size: 0.85rem; color: var(--gray-400);">
+          <ol style="padding-left: 1.25rem;">
+            <li style="margin-bottom: 0.35rem;">Buyer broker agreement tracking (manual, honor system)</li>
+            <li style="margin-bottom: 0.35rem;">Agent advertising audit (impossible at scale)</li>
+            <li style="margin-bottom: 0.35rem;">Transaction file completeness before closing</li>
+            <li style="margin-bottom: 0.35rem;">MLS data accuracy verification</li>
+            <li style="margin-bottom: 0.35rem;">License & CE tracking across multiple states</li>
+            <li style="margin-bottom: 0.35rem;">Policy distribution and acknowledgment tracking</li>
+            <li style="margin-bottom: 0.35rem;">Trust account monthly reconciliation</li>
+            <li style="margin-bottom: 0.35rem;">Fair housing documentation and training</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: STATE-LEVEL COMPLIANCE -->
+<div class="slide" id="research-states">
+  <div class="slide-number">11</div>
+  <div class="slide-inner">
+    <div class="slide-label">Research Deep Dive</div>
+    <h2>50 states, 50 rule sets &mdash; all diverging</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1rem;">Strictest States</h3>
+        <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--red);">
+          <h4>California (DRE)</h4>
+          <p>135 hrs pre-licensing. 45 hrs CE per 4-yr cycle. Quarterly trust fund reconciliation with random DRE audits. Strict advertising rules. Dual agency heavily regulated.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--amber);">
+          <h4>Texas (TREC)</h4>
+          <p>180 hrs pre-licensing (highest in US). Mandatory IABS form at first contact. Random trust account audits. Fines up to $5,000/day/violation with 2x repeat multiplier.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem; border-left: 3px solid var(--amber);">
+          <h4>New York (DOS)</h4>
+          <p>75 hrs pre-licensing. Expanded fair housing training after Newsday "Long Island Divided" investigation. Strict escrow rules. Aggressive anti-discrimination enforcement.</p>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--blue);">
+          <h4>Florida (DBPR/FREC)</h4>
+          <p>63 hrs pre-licensing + 45 hrs post-licensing. Escrow disputes trigger mandatory FREC reporting. Active crackdown on unlicensed activity.</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1rem;">Why Multi-State Is So Hard</h3>
+        <ul class="bullet-list" style="font-size: 0.9rem; margin-bottom: 2rem;">
+          <li><strong style="color:var(--white);">No reciprocity standard</strong> &mdash; each agreement is bilateral and varies</li>
+          <li><strong style="color:var(--white);">Different renewal cycles</strong> &mdash; 10 states = 10 different deadlines</li>
+          <li><strong style="color:var(--white);">Inconsistent definitions</strong> &mdash; "supervision" and "advertising" vary by state</li>
+          <li><strong style="color:var(--white);">Different forms/disclosures</strong> &mdash; agency, property condition, lead paint all vary</li>
+          <li><strong style="color:var(--white);">No single database</strong> &mdash; each state system checked individually</li>
+          <li><strong style="color:var(--white);">CE requirements: 0 to 45+ hours</strong> with different mandatory topics per state</li>
+        </ul>
+        <h3 style="margin-bottom: 1rem;">Enforcement Trends (2024&ndash;2026)</h3>
+        <ul class="bullet-list" style="font-size: 0.9rem;">
+          <li>Trust account violations remain <strong style="color:var(--red);">#1 cause of license revocation</strong></li>
+          <li>Team advertising crackdowns (TX, CA, FL, CO)</li>
+          <li>Unlicensed activity enforcement expanding</li>
+          <li>Remote/virtual brokerage supervision scrutiny</li>
+          <li>Technology-assisted auditing (electronic submission)</li>
+          <li>States codifying post-settlement buyer agency rules</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: FAIR HOUSING & ADVERTISING -->
+<div class="slide" id="research-fh">
+  <div class="slide-number">12</div>
+  <div class="slide-inner">
+    <div class="slide-label">Research Deep Dive</div>
+    <h2>Fair housing & advertising: where AI adds the most value</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1rem;">Fair Housing Violations (Often Accidental)</h3>
+        <ul class="bullet-list" style="font-size: 0.88rem; margin-bottom: 2rem;">
+          <li>"Perfect for young professionals" &mdash; familial status bias</li>
+          <li>"Close to [specific house of worship]" &mdash; religion preference</li>
+          <li>"Safe neighborhood" &mdash; correlates with racial composition</li>
+          <li>Facebook ad targeting excluding protected classes</li>
+          <li>Photography only showing certain demographics</li>
+          <li>Selective showing behavior (unconscious steering)</li>
+        </ul>
+        <div class="highlight-box red">
+          <h4>Fair Housing Penalties</h4>
+          <p>First offense: up to <strong style="color:var(--white);">$21,039</strong>. Subsequent: up to <strong style="color:var(--white);">$52,596</strong>. DOJ pattern-or-practice cases: <strong style="color:var(--white);">multi-million dollar settlements</strong>. Detection via undercover testing by fair housing orgs.</p>
+        </div>
+        <h3 style="margin: 2rem 0 1rem;">Cybersecurity & Wire Fraud</h3>
+        <ul class="bullet-list" style="font-size: 0.88rem;">
+          <li>$400M+ lost annually to RE wire fraud</li>
+          <li>Business Email Compromise is the top vector</li>
+          <li>States increasingly holding brokerages accountable</li>
+          <li>E&O carriers requiring MFA and encrypted communications</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1rem;">Advertising Compliance (Top Violations)</h3>
+        <ol style="padding-left: 1.25rem; font-size: 0.88rem; color: var(--gray-300);">
+          <li style="margin-bottom: 0.5rem;"><strong style="color:var(--white);">Missing brokerage name</strong> on social media, yard signs, web ads</li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color:var(--white);">Team names implying independent brokerage</strong></li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color:var(--white);">Misleading claims</strong> &mdash; "#1 Agent" without substantiation</li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color:var(--white);">Missing Equal Housing Opportunity</strong> logo</li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color:var(--white);">Virtual staging without disclosure</strong></li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color:var(--white);">Outdated listing status</strong> shown as available</li>
+        </ol>
+        <div class="highlight-box" style="margin-top: 1.5rem;">
+          <h4>Why AI Is the Only Solution</h4>
+          <p>A 100-agent brokerage has agents posting across Instagram, Facebook, TikTok, YouTube, personal websites, and print. Checking every post for brokerage name, license number, EHO logo, and compliant language is <strong style="color:var(--white);">humanly impossible at scale</strong>. AI-powered scanning is the only way to achieve continuous advertising compliance monitoring.</p>
+        </div>
+        <h3 style="margin: 2rem 0 1rem;">Document Retention by State</h3>
+        <table style="font-size: 0.85rem;">
+          <tr><td>California</td><td>3 years</td></tr>
+          <tr><td>Texas</td><td>4 years</td></tr>
+          <tr><td>Florida</td><td>5 years</td></tr>
+          <tr><td>New York</td><td>3 years</td></tr>
+          <tr><td>Colorado</td><td>4 years</td></tr>
+          <tr><td>Illinois</td><td>5 years</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 13: REGULATORY TRENDS -->
+<div class="slide" id="research-trends">
+  <div class="slide-number">13</div>
+  <div class="slide-inner">
+    <div class="slide-label">Research Deep Dive</div>
+    <h2>Where compliance is heading (2025&ndash;2028)</h2>
+    <div class="divider"></div>
+    <div class="grid-3" style="margin-top: 2rem;">
+      <div class="card" style="border-top: 3px solid var(--blue);">
+        <h4>AI Regulation</h4>
+        <p style="margin-top: 0.5rem;">Colorado AI Act (SB 24-205, effective 2026) requires bias audits for housing-related AI. AVM quality control rules finalized (Dodd-Frank 1473). States considering AI-generated content disclosure rules. AI compliance will be its own compliance category within 12&ndash;18 months.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--emerald);">
+        <h4>Data Privacy Expansion</h4>
+        <p style="margin-top: 0.5rem;">15&ndash;20 states with comprehensive privacy laws by 2026. Brokerages are "businesses" under CCPA/CPRA. CRM/lead data subject to deletion rights. Agent departure data ownership becoming litigation area. Formal privacy programs will be required.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--amber);">
+        <h4>Climate & Environmental</h4>
+        <p style="margin-top: 0.5rem;">FEMA flood map updates triggering new disclosures. Energy performance benchmarking expanding to residential. "Climate risk disclosure" emerging (sea level rise, wildfire, extreme heat). PFAS/forever chemicals in water disclosure.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--red);">
+        <h4>Commission Transparency</h4>
+        <p style="margin-top: 0.5rem;">States moving toward "total cost of transaction" disclosure. Mandatory consumer "shopping guides." Commission rates may return to MLS in standardized format. Steering-by-compensation under DOJ investigation.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--blue);">
+        <h4>Dual Agency Decline</h4>
+        <p style="margin-top: 0.5rem;">8 states already ban dual agency. Several more introducing legislation to ban or heavily restrict it. "Designated agency" also under scrutiny. This creates new documentation requirements for every brokerage.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--emerald);">
+        <h4>Broker Liability Expansion</h4>
+        <p style="margin-top: 0.5rem;">Trend toward holding brokerages (not just agents) liable for systemic failures. E&O carriers requiring documented compliance programs. Some states considering tying license renewal to compliance program implementation.</p>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top: 2rem;">
+      <h4>The Strategic Insight</h4>
+      <p>Five macro trends converge: <strong style="color:var(--white);">(1)</strong> Fragmentation is accelerating &mdash; federal rulemaking slows while states diverge. <strong style="color:var(--white);">(2)</strong> Transparency is the through-line across all categories. <strong style="color:var(--white);">(3)</strong> Technology creates new compliance categories (AI, privacy). <strong style="color:var(--white);">(4)</strong> The managing broker is the compliance bottleneck. <strong style="color:var(--white);">(5)</strong> "Can you prove you complied?" matters more than "did you comply?" A platform built for this landscape will be relevant for a decade or more.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 14: MOATS & DEFENSIBILITY -->
+<div class="slide" id="moats">
+  <div class="slide-number">14</div>
+  <div class="slide-inner">
+    <div class="slide-label">Defensibility</div>
+    <h2>Four moats that compound over time</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div class="card" style="border-left: 3px solid var(--blue);">
+        <h4>1. ARELLO API Access (Data Moat)</h4>
+        <p style="margin-top: 0.5rem;">ARELLO maintains the only centralized license database across all 50 states. API access is gated &mdash; they vet applicants and charge for access. Application submitted March 25, 2026. This creates a significant barrier to entry that competitors must independently negotiate.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--emerald);">
+        <h4>2. 50-State Regulatory Engine (Knowledge Moat)</h4>
+        <p style="margin-top: 0.5rem;">Encoding every state's specific CE requirements, renewal cycles, mandatory topics, forms, advertising rules, trust account regulations, and disclosure requirements is a massive data effort. Maintaining it as rules change is ongoing work that compounds over time.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--amber);">
+        <h4>3. Network Effects (Scale Moat)</h4>
+        <p style="margin-top: 0.5rem;">More brokerages = better compliance benchmarking data. "Your agents are 23% more likely to miss CE deadlines than the national average" &mdash; insights only possible at scale. Predictive models improve with more data.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--blue-light);">
+        <h4>4. Workflow Embedding (Switching Moat)</h4>
+        <p style="margin-top: 0.5rem;">Once compliance workflows are embedded in daily brokerage operations &mdash; automatic license checks, document scanning, advertising monitoring &mdash; migrating away means recreating all that configuration. Compliance tools are sticky because the cost of switching (and the risk during transition) is high.</p>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1rem;">Risks We're Watching</h3>
+        <ul class="bullet-list" style="font-size: 0.88rem;">
+          <li>Lone Wolf could build compliance features into their consolidated platform</li>
+          <li>State regulatory data is fragmented &mdash; building coverage is hard</li>
+          <li>Brokerages are historically slow to adopt new technology</li>
+          <li>Political shifts could slow or accelerate regulatory enforcement</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1rem;">Why We Win Anyway</h3>
+        <ul class="bullet-list" style="font-size: 0.88rem;">
+          <li>Lone Wolf's post-acquisition integration is messy; compliance isn't their DNA</li>
+          <li>The fragmentation is our moat &mdash; painful to build, painful to replicate</li>
+          <li>The NAR settlement created urgency that didn't exist before</li>
+          <li>Compliance obligations exist regardless of political climate</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15: FINANCIALS -->
+<div class="slide" id="financials">
+  <div class="slide-number">15</div>
+  <div class="slide-inner">
+    <div class="slide-label">Financial Projections</div>
+    <h2>Path to $10M ARR</h2>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1.25rem;">Conservative Growth Model</h3>
+        <table>
+          <tr>
+            <th>Metric</th>
+            <th>Year 1</th>
+            <th>Year 2</th>
+            <th>Year 3</th>
+          </tr>
+          <tr>
+            <td>Paying Brokerages</td>
+            <td>50</td>
+            <td>250</td>
+            <td>800</td>
+          </tr>
+          <tr>
+            <td>Total Agents on Platform</td>
+            <td>2,500</td>
+            <td>15,000</td>
+            <td>50,000</td>
+          </tr>
+          <tr>
+            <td>Avg Revenue / Brokerage / Mo</td>
+            <td>$500</td>
+            <td>$750</td>
+            <td>$1,000</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--white);">ARR</td>
+            <td style="color: var(--emerald); font-weight: 700;">$300K</td>
+            <td style="color: var(--emerald); font-weight: 700;">$2.25M</td>
+            <td style="color: var(--emerald); font-weight: 700;">$9.6M</td>
+          </tr>
+          <tr>
+            <td>MRR</td>
+            <td>$25K</td>
+            <td>$188K</td>
+            <td>$800K</td>
+          </tr>
+        </table>
+        <div style="margin-top: 1.5rem;">
+          <h3 style="margin-bottom: 1rem;">Key Assumptions</h3>
+          <ul class="bullet-list" style="font-size: 0.85rem;">
+            <li>Average brokerage size: 50 agents</li>
+            <li>Freemium conversion rate: 3&ndash;5% (conservative)</li>
+            <li>Net revenue retention: 110% (expansion via agent growth)</li>
+            <li>Monthly churn: &lt;3% (compliance tools are sticky)</li>
+            <li>Avg contract value grows as brokerages add modules</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1.25rem;">Unit Economics Target</h3>
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="stat-box">
+            <div class="number emerald" style="font-size: 1.75rem;">$500</div>
+            <div class="label">Year 1 Avg Monthly Rev / Brokerage</div>
+          </div>
+          <div class="stat-box">
+            <div class="number blue" style="font-size: 1.75rem;">&lt;$200</div>
+            <div class="label">Target CAC (PLG + content)</div>
+          </div>
+          <div class="stat-box">
+            <div class="number emerald" style="font-size: 1.75rem;">36+ mo</div>
+            <div class="label">Target LTV (low churn)</div>
+          </div>
+          <div class="stat-box">
+            <div class="number blue" style="font-size: 1.75rem;">18:1</div>
+            <div class="label">Target LTV:CAC Ratio</div>
+          </div>
+        </div>
+        <div class="highlight-box green" style="margin-top: 1.5rem;">
+          <h4>Why Compliance SaaS Has Great Unit Economics</h4>
+          <p style="margin-top: 0.5rem;">
+            <strong style="color:var(--white);">Low churn:</strong> Compliance is non-optional. Brokerages can't "cancel compliance."<br>
+            <strong style="color:var(--white);">Natural expansion:</strong> As brokerages grow agents, revenue grows automatically.<br>
+            <strong style="color:var(--white);">High switching costs:</strong> Migrating compliance workflows is risky and painful.<br>
+            <strong style="color:var(--white);">PLG acquisition:</strong> Free license checker drives low-cost organic signups.
+          </p>
+        </div>
+        <div class="highlight-box" style="margin-top: 1rem;">
+          <h4>Acquisition Optionality</h4>
+          <p>Lone Wolf, Fidelity National Financial (SkySlope parent), and Zillow (Dotloop parent) are all active acquirers in RE tech. A compliance-focused platform with ARELLO integration and a multi-state rule engine would be a strategic acquisition target at 8&ndash;15x ARR.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: CLOSING -->
+<div class="slide cover" id="closing" style="min-height: 80vh;">
+  <div class="slide-inner">
+    <a href="index.html" class="logo" style="font-size:3rem;text-decoration:none;color:inherit;">complia<span>.ai</span></a>
+    <div style="font-size: 1.35rem; color: var(--gray-300); margin: 1rem 0 2rem; position: relative;">
+      Every agent. Every file. Every state.<br>Always audit-ready.
+    </div>
+    <div class="divider" style="margin: 0 auto 2rem;"></div>
+    <div style="position: relative;">
+      <div class="grid-3" style="max-width: 700px; margin: 0 auto 2.5rem; gap: 1rem;">
+        <div class="stat-box" style="padding: 1.25rem;">
+          <div class="number blue" style="font-size: 1.5rem;">$348M</div>
+          <div class="label">TAM</div>
+        </div>
+        <div class="stat-box" style="padding: 1.25rem;">
+          <div class="number emerald" style="font-size: 1.5rem;">0</div>
+          <div class="label">AI-First Competitors</div>
+        </div>
+        <div class="stat-box" style="padding: 1.25rem;">
+          <div class="number amber" style="font-size: 1.5rem;">106K</div>
+          <div class="label">Brokerages Need This</div>
+        </div>
+      </div>
+      <p style="color: var(--gray-500); font-size: 0.95rem; margin-bottom: 2rem;">
+        The real estate compliance market is in a once-in-a-generation disruption window.<br>
+        No one has built the AI-first platform that brokerages desperately need. Until now.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="index.html" style="background: var(--blue); color: var(--white); padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1rem;">Visit complia.ai &rarr;</a>
+        <a href="mailto:hello@complia.ai" style="border: 1px solid rgba(255,255,255,0.15); color: var(--gray-300); padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1rem;">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
