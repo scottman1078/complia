@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complia | Dashboard</title>
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-light: #111d33;
+    --navy-mid: #162238;
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+    --blue-glow: rgba(37, 99, 235, 0.15);
+    --emerald: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.15);
+    --amber: #f59e0b;
+    --amber-glow: rgba(245, 158, 11, 0.12);
+    --red: #ef4444;
+    --red-glow: rgba(239, 68, 68, 0.12);
+    --white: #ffffff;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--navy);
+    color: var(--gray-200);
+    line-height: 1.5;
+    display: flex; min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px; background: var(--navy-light); border-right: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 0; flex-shrink: 0; display: flex; flex-direction: column;
+    position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
+  }
+  .sidebar-logo {
+    font-size: 1.35rem; font-weight: 700; color: var(--white);
+    padding: 0 1.5rem; margin-bottom: 2rem; text-decoration: none;
+  }
+  .sidebar-logo span { color: var(--blue-light); }
+  .sidebar-section {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--gray-600); padding: 0.75rem 1.5rem 0.4rem; font-weight: 600;
+  }
+  .sidebar-link {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.6rem 1.5rem; color: var(--gray-400); text-decoration: none;
+    font-size: 0.88rem; transition: all 0.15s; border-left: 3px solid transparent;
+  }
+  .sidebar-link:hover { background: rgba(255,255,255,0.03); color: var(--gray-200); }
+  .sidebar-link.active {
+    color: var(--white); background: rgba(37, 99, 235, 0.08);
+    border-left-color: var(--blue);
+  }
+  .sidebar-link .icon { font-size: 1.1rem; width: 20px; text-align: center; }
+  .sidebar-badge {
+    margin-left: auto; font-size: 0.65rem; padding: 0.1rem 0.5rem;
+    border-radius: 100px; font-weight: 700;
+  }
+  .badge-red { background: var(--red-glow); color: var(--red); }
+  .badge-amber { background: var(--amber-glow); color: var(--amber); }
+  .sidebar-bottom { margin-top: auto; padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+  .sidebar-user { display: flex; align-items: center; gap: 0.75rem; }
+  .sidebar-avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: var(--white);
+  }
+  .sidebar-user-info .name { font-size: 0.85rem; color: var(--gray-200); font-weight: 600; }
+  .sidebar-user-info .role { font-size: 0.7rem; color: var(--gray-500); }
+
+  /* MAIN */
+  .main { flex: 1; margin-left: 240px; }
+
+  /* TOP BAR */
+  .topbar {
+    height: 56px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; background: rgba(10, 22, 40, 0.7);
+    backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 40;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 1rem; }
+  .topbar h1 { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+  .topbar-right { display: flex; align-items: center; gap: 1rem; }
+  .topbar-btn {
+    padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.8rem;
+    font-weight: 600; text-decoration: none; transition: all 0.15s;
+  }
+  .topbar-btn.primary { background: var(--blue); color: var(--white); }
+  .topbar-btn.ghost { color: var(--gray-400); border: 1px solid rgba(255,255,255,0.1); }
+  .topbar-search {
+    background: var(--navy-light); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 0.4rem 1rem; color: var(--gray-300);
+    font-size: 0.85rem; width: 280px; outline: none;
+  }
+  .topbar-search::placeholder { color: var(--gray-600); }
+
+  /* CONTENT */
+  .content { padding: 1.75rem 2rem; }
+
+  /* SCORE ROW */
+  .score-row { display: flex; gap: 1.25rem; margin-bottom: 1.75rem; }
+  .score-card {
+    flex: 1; padding: 1.5rem; background: var(--navy-light);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 14px;
+  }
+  .score-card .label {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--gray-500); margin-bottom: 0.75rem; font-weight: 600;
+  }
+  .score-card .value { font-size: 2.25rem; font-weight: 800; }
+  .score-card .sub {
+    font-size: 0.78rem; color: var(--gray-500); margin-top: 0.35rem;
+    display: flex; align-items: center; gap: 0.35rem;
+  }
+  .score-card .sub .up { color: var(--emerald); }
+  .score-card .sub .down { color: var(--red); }
+
+  /* RING */
+  .ring-container { display: flex; align-items: center; gap: 1.5rem; }
+  .ring-svg { width: 80px; height: 80px; }
+  .ring-track { fill: none; stroke: var(--navy); stroke-width: 8; }
+  .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round;
+    transform: rotate(-90deg); transform-origin: center; }
+  .ring-text {
+    font-size: 1.1rem; font-weight: 800; fill: var(--white);
+    text-anchor: middle; dominant-baseline: central;
+  }
+
+  /* GRID SECTIONS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+
+  /* PANEL */
+  .panel {
+    background: var(--navy-light); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px; overflow: hidden;
+  }
+  .panel-header {
+    padding: 1rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .panel-header h3 { font-size: 0.9rem; font-weight: 700; color: var(--white); }
+  .panel-header .action {
+    font-size: 0.75rem; color: var(--blue-light); text-decoration: none;
+    font-weight: 600;
+  }
+  .panel-body { padding: 0; }
+
+  /* AGENT TABLE */
+  .agent-table { width: 100%; border-collapse: collapse; }
+  .agent-table th {
+    text-align: left; padding: 0.6rem 1.25rem; font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-600);
+    border-bottom: 1px solid rgba(255,255,255,0.06); font-weight: 600;
+  }
+  .agent-table td {
+    padding: 0.7rem 1.25rem; font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .agent-table tr:hover { background: rgba(255,255,255,0.015); }
+  .agent-name { color: var(--white); font-weight: 600; }
+  .agent-id { color: var(--gray-500); font-size: 0.75rem; }
+
+  /* STATUS BADGES */
+  .status {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.65rem;
+    border-radius: 6px;
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-compliant { background: var(--emerald-glow); color: var(--emerald); }
+  .status-compliant .status-dot { background: var(--emerald); }
+  .status-warning { background: var(--amber-glow); color: var(--amber); }
+  .status-warning .status-dot { background: var(--amber); }
+  .status-risk { background: var(--red-glow); color: var(--red); }
+  .status-risk .status-dot { background: var(--red); }
+
+  /* PROGRESS BAR */
+  .progress { height: 6px; background: var(--navy); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; }
+
+  /* ALERT LIST */
+  .alert-item {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 0.85rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .alert-item:last-child { border-bottom: none; }
+  .alert-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem;
+  }
+  .alert-icon.red { background: var(--red-glow); }
+  .alert-icon.amber { background: var(--amber-glow); }
+  .alert-icon.blue { background: var(--blue-glow); }
+  .alert-text { flex: 1; }
+  .alert-text .title { font-size: 0.85rem; color: var(--gray-200); font-weight: 600; }
+  .alert-text .desc { font-size: 0.78rem; color: var(--gray-500); margin-top: 0.15rem; }
+  .alert-time { font-size: 0.7rem; color: var(--gray-600); white-space: nowrap; margin-top: 0.1rem; }
+
+  /* ACTIVITY */
+  .activity-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.65rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .activity-text { font-size: 0.82rem; color: var(--gray-400); flex: 1; }
+  .activity-text b { color: var(--gray-200); font-weight: 600; }
+  .activity-time { font-size: 0.7rem; color: var(--gray-600); }
+
+  /* TRANSACTION LIST */
+  .txn-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.75rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .txn-address { font-size: 0.85rem; color: var(--white); font-weight: 600; flex: 1; }
+  .txn-agent { font-size: 0.78rem; color: var(--gray-500); width: 120px; }
+  .txn-score {
+    font-size: 0.82rem; font-weight: 700; width: 40px; text-align: center;
+  }
+  .txn-docs { font-size: 0.75rem; color: var(--gray-500); width: 80px; }
+
+  /* CHART PLACEHOLDER */
+  .chart-area {
+    padding: 1.5rem 1.25rem; display: flex; align-items: flex-end;
+    gap: 0.5rem; height: 180px;
+  }
+  .chart-bar {
+    flex: 1; border-radius: 4px 4px 0 0; position: relative;
+    transition: all 0.3s;
+  }
+  .chart-bar:hover { opacity: 0.8; }
+  .chart-labels {
+    display: flex; gap: 0.5rem; padding: 0.5rem 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .chart-labels span {
+    flex: 1; text-align: center; font-size: 0.65rem; color: var(--gray-600);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .score-row { flex-wrap: wrap; }
+    .score-card { min-width: 200px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* DEMO BANNER */
+  .demo-banner {
+    background: linear-gradient(90deg, var(--blue) 0%, #7c3aed 100%);
+    padding: 0.5rem 2rem; text-align: center;
+    font-size: 0.8rem; font-weight: 600; color: var(--white);
+  }
+  .demo-banner a { color: var(--white); text-decoration: underline; margin-left: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <a href="index.html" class="sidebar-logo">complia<span>.ai</span></a>
+  <div class="sidebar-section">Overview</div>
+  <a href="#" class="sidebar-link active">
+    <span class="icon">&#9632;</span> Dashboard
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128200;</span> Compliance Score
+  </a>
+  <div class="sidebar-section">Monitor</div>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128101;</span> Agents
+    <span class="sidebar-badge badge-red">3</span>
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128196;</span> Transactions
+    <span class="sidebar-badge badge-amber">7</span>
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128272;</span> Licenses & CE
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128225;</span> Advertising
+    <span class="sidebar-badge badge-amber">5</span>
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#127968;</span> Fair Housing
+  </a>
+  <div class="sidebar-section">Manage</div>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128176;</span> Trust Accounts
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128218;</span> Regulatory Updates
+    <span class="sidebar-badge badge-amber">2</span>
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128203;</span> Training
+  </a>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#128202;</span> Reports
+  </a>
+  <div class="sidebar-section">Settings</div>
+  <a href="#" class="sidebar-link">
+    <span class="icon">&#9881;</span> Brokerage Settings
+  </a>
+  <div class="sidebar-bottom">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">SM</div>
+      <div class="sidebar-user-info">
+        <div class="name">Scott Molluso</div>
+        <div class="role">Managing Broker</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="demo-banner">
+    This is a product concept dashboard. <a href="index.html">&larr; Back to Complia.ai</a>
+  </div>
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>Dashboard</h1>
+    </div>
+    <div class="topbar-right">
+      <input type="text" class="topbar-search" placeholder="Search agents, transactions, alerts...">
+      <a href="#" class="topbar-btn ghost">Export</a>
+      <a href="#" class="topbar-btn primary">+ Add Agent</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- SCORE ROW -->
+    <div class="score-row">
+      <div class="score-card">
+        <div class="label">Brokerage Compliance Score</div>
+        <div class="ring-container">
+          <svg class="ring-svg" viewBox="0 0 80 80">
+            <circle class="ring-track" cx="40" cy="40" r="34"/>
+            <circle class="ring-fill" cx="40" cy="40" r="34" stroke="var(--emerald)"
+              stroke-dasharray="213.6" stroke-dashoffset="27.8"/>
+            <text class="ring-text" x="40" y="40">87%</text>
+          </svg>
+          <div>
+            <div style="font-size: 0.85rem; color: var(--gray-300);">Good Standing</div>
+            <div class="sub"><span class="up">&#9650; 3%</span> from last month</div>
+          </div>
+        </div>
+      </div>
+      <div class="score-card">
+        <div class="label">Active Agents</div>
+        <div class="value white">73</div>
+        <div class="sub"><span class="up">&#9650; 2</span> new this month</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Open Transactions</div>
+        <div class="value white">41</div>
+        <div class="sub">7 need attention</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Compliance Alerts</div>
+        <div class="value red">12</div>
+        <div class="sub"><span class="down">&#9650; 4</span> since last week</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Licenses Expiring (30d)</div>
+        <div class="value amber">3</div>
+        <div class="sub">CE deadlines approaching</div>
+      </div>
+    </div>
+
+    <!-- ALERTS + COMPLIANCE TREND -->
+    <div class="grid-2" style="margin-bottom: 1.25rem;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>&#9888; Active Alerts</h3>
+          <a href="#" class="action">View All (12)</a>
+        </div>
+        <div class="panel-body">
+          <div class="alert-item">
+            <div class="alert-icon red">&#9888;</div>
+            <div class="alert-text">
+              <div class="title">Mike Thompson &mdash; License expired</div>
+              <div class="desc">California DRE license #01987654 expired 3/28. Agent must stop all activity immediately.</div>
+            </div>
+            <div class="alert-time">2h ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon red">&#9888;</div>
+            <div class="alert-text">
+              <div class="title">Missing buyer broker agreement &mdash; 742 Evergreen Terrace</div>
+              <div class="desc">Agent David Kim showed property without signed agreement on file. MLS violation risk.</div>
+            </div>
+            <div class="alert-time">4h ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon amber">&#9888;</div>
+            <div class="alert-text">
+              <div class="title">Ad compliance &mdash; Lisa Park Instagram post</div>
+              <div class="desc">Post missing brokerage name. Team name "Park Realty Group" appears without brokerage identification.</div>
+            </div>
+            <div class="alert-time">6h ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon amber">&#9888;</div>
+            <div class="alert-text">
+              <div class="title">Fair housing flag &mdash; Listing #MLS-29481</div>
+              <div class="desc">Description contains "perfect for young couple" &mdash; potential familial status bias. Suggested revision available.</div>
+            </div>
+            <div class="alert-time">8h ago</div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon blue">&#128218;</div>
+            <div class="alert-text">
+              <div class="title">Regulatory update &mdash; California DRE</div>
+              <div class="desc">New advertising disclosure requirements effective April 15, 2026. 5 agents affected.</div>
+            </div>
+            <div class="alert-time">1d ago</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>&#128200; Compliance Trend (6 months)</h3>
+          <a href="#" class="action">Details</a>
+        </div>
+        <div class="chart-area">
+          <div class="chart-bar" style="height: 55%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 62%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 58%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 70%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 75%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 72%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 78%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 80%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 76%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 82%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 85%; background: var(--blue);"></div>
+          <div class="chart-bar" style="height: 87%; background: var(--emerald);"></div>
+        </div>
+        <div class="chart-labels">
+          <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+          <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+        </div>
+        <div style="padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.04);">
+          <div class="grid-3" style="gap: 1rem;">
+            <div style="text-align: center;">
+              <div style="font-size: 1.25rem; font-weight: 800; color: var(--emerald);">94%</div>
+              <div style="font-size: 0.7rem; color: var(--gray-500);">License Compliance</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.25rem; font-weight: 800; color: var(--amber);">81%</div>
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Transaction Docs</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.25rem; font-weight: 800; color: var(--amber);">78%</div>
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Ad Compliance</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENTS + TRANSACTIONS -->
+    <div class="grid-2" style="margin-bottom: 1.25rem;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>&#128101; Agent Compliance Status</h3>
+          <a href="#" class="action">View All (73)</a>
+        </div>
+        <div class="panel-body">
+          <table class="agent-table">
+            <tr>
+              <th>Agent</th>
+              <th>License</th>
+              <th>CE Progress</th>
+              <th>Status</th>
+            </tr>
+            <tr>
+              <td><div class="agent-name">Sarah Chen</div><div class="agent-id">CA #01234567</div></td>
+              <td style="color: var(--emerald);">Active</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">42/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:93%;background:var(--emerald);"></div></div>
+              </td>
+              <td><span class="status status-compliant"><span class="status-dot"></span>Compliant</span></td>
+            </tr>
+            <tr>
+              <td><div class="agent-name">James Rodriguez</div><div class="agent-id">CA #01345678 &bull; AZ #BR-98765</div></td>
+              <td style="color: var(--emerald);">Active</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">38/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:84%;background:var(--emerald);"></div></div>
+              </td>
+              <td><span class="status status-compliant"><span class="status-dot"></span>Compliant</span></td>
+            </tr>
+            <tr>
+              <td><div class="agent-name">Lisa Park</div><div class="agent-id">CA #01456789</div></td>
+              <td style="color: var(--emerald);">Active</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">28/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:62%;background:var(--amber);"></div></div>
+              </td>
+              <td><span class="status status-warning"><span class="status-dot"></span>Ad Violation</span></td>
+            </tr>
+            <tr>
+              <td><div class="agent-name">David Kim</div><div class="agent-id">CA #01567890</div></td>
+              <td style="color: var(--emerald);">Active</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">12/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:27%;background:var(--red);"></div></div>
+              </td>
+              <td><span class="status status-warning"><span class="status-dot"></span>Missing BBA</span></td>
+            </tr>
+            <tr>
+              <td><div class="agent-name">Mike Thompson</div><div class="agent-id">CA #01987654</div></td>
+              <td style="color: var(--red); font-weight: 600;">Expired</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">20/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:44%;background:var(--red);"></div></div>
+              </td>
+              <td><span class="status status-risk"><span class="status-dot"></span>At Risk</span></td>
+            </tr>
+            <tr>
+              <td><div class="agent-name">Anna Kowalski</div><div class="agent-id">CA #01876543</div></td>
+              <td style="color: var(--amber);">Exp in 22d</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">40/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:89%;background:var(--emerald);"></div></div>
+              </td>
+              <td><span class="status status-warning"><span class="status-dot"></span>Renewal Due</span></td>
+            </tr>
+            <tr>
+              <td><div class="agent-name">Robert Martinez</div><div class="agent-id">CA #01765432</div></td>
+              <td style="color: var(--emerald);">Active</td>
+              <td>
+                <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:0.25rem;">45/45 hrs</div>
+                <div class="progress"><div class="progress-fill" style="width:100%;background:var(--emerald);"></div></div>
+              </td>
+              <td><span class="status status-compliant"><span class="status-dot"></span>Compliant</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>&#128196; Recent Transactions</h3>
+          <a href="#" class="action">View All (41)</a>
+        </div>
+        <div class="panel-body">
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--emerald);">98</div>
+            <div class="txn-address">1847 Oak Valley Dr, Pasadena</div>
+            <div class="txn-agent">S. Chen</div>
+            <div class="txn-docs" style="color: var(--emerald);">12/12 docs</div>
+            <span class="status status-compliant"><span class="status-dot"></span>Complete</span>
+          </div>
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--emerald);">95</div>
+            <div class="txn-address">3201 Sunset Blvd #4B, LA</div>
+            <div class="txn-agent">J. Rodriguez</div>
+            <div class="txn-docs" style="color: var(--emerald);">11/11 docs</div>
+            <span class="status status-compliant"><span class="status-dot"></span>Complete</span>
+          </div>
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--amber);">72</div>
+            <div class="txn-address">742 Evergreen Terrace, Glendale</div>
+            <div class="txn-agent">D. Kim</div>
+            <div class="txn-docs" style="color: var(--red);">8/11 docs</div>
+            <span class="status status-risk"><span class="status-dot"></span>Missing BBA</span>
+          </div>
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--amber);">78</div>
+            <div class="txn-address">5590 Wilshire Blvd, LA</div>
+            <div class="txn-agent">L. Park</div>
+            <div class="txn-docs" style="color: var(--amber);">9/11 docs</div>
+            <span class="status status-warning"><span class="status-dot"></span>Review</span>
+          </div>
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--emerald);">92</div>
+            <div class="txn-address">201 N Brand Blvd, Glendale</div>
+            <div class="txn-agent">R. Martinez</div>
+            <div class="txn-docs" style="color: var(--emerald);">10/10 docs</div>
+            <span class="status status-compliant"><span class="status-dot"></span>Complete</span>
+          </div>
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--red);">45</div>
+            <div class="txn-address">8800 Apollo Way, Downey</div>
+            <div class="txn-agent">M. Thompson</div>
+            <div class="txn-docs" style="color: var(--red);">5/12 docs</div>
+            <span class="status status-risk"><span class="status-dot"></span>Expired Lic</span>
+          </div>
+          <div class="txn-item">
+            <div class="txn-score" style="color: var(--amber);">80</div>
+            <div class="txn-address">1122 Maple St, Burbank</div>
+            <div class="txn-agent">A. Kowalski</div>
+            <div class="txn-docs" style="color: var(--amber);">9/11 docs</div>
+            <span class="status status-warning"><span class="status-dot"></span>Pending Disc</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY + AD MONITOR -->
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>&#128338; Recent Activity</h3>
+          <a href="#" class="action">View All</a>
+        </div>
+        <div class="panel-body">
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--emerald);"></div>
+            <div class="activity-text"><b>Sarah Chen</b> completed CE course "Fair Housing 2026 Update" (3 hrs)</div>
+            <div class="activity-time">1h ago</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--blue);"></div>
+            <div class="activity-text"><b>System</b> scanned 47 social media posts across 12 agents</div>
+            <div class="activity-time">2h ago</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--red);"></div>
+            <div class="activity-text"><b>Mike Thompson</b> license expired &mdash; automatic alert sent to agent</div>
+            <div class="activity-time">3h ago</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--amber);"></div>
+            <div class="activity-text"><b>David Kim</b> submitted buyer broker agreement for 742 Evergreen &mdash; pending review</div>
+            <div class="activity-time">4h ago</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--emerald);"></div>
+            <div class="activity-text"><b>James Rodriguez</b> passed advertising compliance scan (3 posts verified)</div>
+            <div class="activity-time">5h ago</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--blue);"></div>
+            <div class="activity-text"><b>Regulatory Monitor</b> detected new CA DRE bulletin RE-2026-04</div>
+            <div class="activity-time">6h ago</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--emerald);"></div>
+            <div class="activity-text"><b>Trust account</b> monthly reconciliation completed &mdash; no exceptions</div>
+            <div class="activity-time">1d ago</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>&#128225; Advertising Monitor</h3>
+          <a href="#" class="action">View All Scans</a>
+        </div>
+        <div class="panel-body">
+          <div style="padding: 1.25rem;">
+            <div class="grid-3" style="gap: 1rem; margin-bottom: 1.25rem;">
+              <div style="text-align: center; padding: 1rem; background: var(--navy); border-radius: 10px;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--white);">247</div>
+                <div style="font-size: 0.7rem; color: var(--gray-500);">Posts Scanned (30d)</div>
+              </div>
+              <div style="text-align: center; padding: 1rem; background: var(--navy); border-radius: 10px;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--amber);">5</div>
+                <div style="font-size: 0.7rem; color: var(--gray-500);">Violations Found</div>
+              </div>
+              <div style="text-align: center; padding: 1rem; background: var(--navy); border-radius: 10px;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--emerald);">98%</div>
+                <div style="font-size: 0.7rem; color: var(--gray-500);">Compliance Rate</div>
+              </div>
+            </div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon amber">&#128247;</div>
+            <div class="alert-text">
+              <div class="title">Lisa Park &mdash; Instagram</div>
+              <div class="desc">Missing brokerage name in post. Team name "Park Realty Group" used without broker identification.</div>
+            </div>
+            <div><span class="status status-warning" style="font-size:0.68rem;"><span class="status-dot"></span>Open</span></div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon amber">&#128247;</div>
+            <div class="alert-text">
+              <div class="title">David Kim &mdash; Facebook</div>
+              <div class="desc">Listing ad missing Equal Housing Opportunity logo.</div>
+            </div>
+            <div><span class="status status-warning" style="font-size:0.68rem;"><span class="status-dot"></span>Open</span></div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon amber">&#128247;</div>
+            <div class="alert-text">
+              <div class="title">Mike Thompson &mdash; Website</div>
+              <div class="desc">"#1 Agent in Glendale" claim without substantiation or time period.</div>
+            </div>
+            <div><span class="status status-risk" style="font-size:0.68rem;"><span class="status-dot"></span>Escalated</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
