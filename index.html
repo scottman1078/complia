@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complia | AI-Powered Compliance for Real Estate Brokerages</title>
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-light: #111d33;
+    --navy-mid: #162238;
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+    --blue-glow: rgba(37, 99, 235, 0.15);
+    --emerald: #10b981;
+    --emerald-glow: rgba(16, 185, 129, 0.15);
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --white: #ffffff;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--navy);
+    color: var(--gray-200);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10, 22, 40, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 1.5rem; font-weight: 700; color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--blue-light); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    color: var(--gray-400); text-decoration: none; font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--blue); color: var(--white) !important;
+    padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 600;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--blue-light); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 8rem 2rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -50%; right: -20%;
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -30%; left: -10%;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, var(--emerald-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--blue-glow); border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: 100px; padding: 0.35rem 1rem; margin-bottom: 1.5rem;
+    font-size: 0.85rem; color: var(--blue-light); font-weight: 500;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--emerald);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero h1 {
+    font-size: 3.5rem; line-height: 1.1; font-weight: 800;
+    color: var(--white); letter-spacing: -0.03em; margin-bottom: 1.5rem;
+  }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--blue-light), var(--emerald));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 1.2rem; color: var(--gray-400); max-width: 520px;
+    margin-bottom: 2rem; line-height: 1.7;
+  }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--blue); color: var(--white); padding: 0.85rem 2rem;
+    border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1rem;
+    transition: all 0.2s; border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.05); color: var(--gray-200);
+    padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none;
+    font-weight: 600; font-size: 1rem; border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
+
+  /* HERO MOCKUP */
+  .hero-mockup {
+    background: var(--navy-light); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 1.5rem; position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  }
+  .mockup-bar {
+    display: flex; gap: 6px; margin-bottom: 1.25rem;
+  }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-700); }
+  .mockup-row {
+    display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem;
+    border-radius: 10px; margin-bottom: 0.5rem;
+    background: var(--navy); border: 1px solid rgba(255,255,255,0.04);
+  }
+  .mockup-status {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .status-green { background: var(--emerald); box-shadow: 0 0 8px rgba(16, 185, 129, 0.5); }
+  .status-amber { background: var(--amber); box-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
+  .status-red { background: var(--red); box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+  .mockup-agent { color: var(--gray-300); font-size: 0.85rem; flex: 1; }
+  .mockup-tag {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .tag-compliant { background: var(--emerald-glow); color: var(--emerald); }
+  .tag-warning { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+  .tag-risk { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+  .mockup-score {
+    text-align: center; margin-top: 1rem; padding: 1.25rem;
+    background: var(--navy); border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .mockup-score .number {
+    font-size: 2.5rem; font-weight: 800; color: var(--emerald);
+  }
+  .mockup-score .label { font-size: 0.8rem; color: var(--gray-500); margin-top: 0.25rem; }
+
+  /* SECTIONS */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--blue-light); font-weight: 600; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: 2.5rem; font-weight: 800; color: var(--white);
+    letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.15;
+  }
+  .section-subtitle {
+    font-size: 1.1rem; color: var(--gray-400); max-width: 640px;
+    line-height: 1.7;
+  }
+  .section-header { margin-bottom: 3.5rem; }
+  .section-header.center { text-align: center; }
+  .section-header.center .section-subtitle { margin: 0 auto; }
+
+  /* PROBLEM */
+  .problem-section { background: var(--navy-light); }
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .problem-stat {
+    text-align: center; padding: 2rem 1.5rem;
+    background: var(--navy); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+  }
+  .problem-stat .number {
+    font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem;
+  }
+  .problem-stat .number.red { color: var(--red); }
+  .problem-stat .number.amber { color: var(--amber); }
+  .problem-stat .number.blue { color: var(--blue-light); }
+  .problem-stat .desc { font-size: 0.9rem; color: var(--gray-400); }
+  .problem-quotes {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .problem-quote {
+    padding: 1.75rem; background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 14px;
+    border-left: 3px solid var(--red);
+  }
+  .problem-quote p {
+    font-style: italic; color: var(--gray-300); font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+  .problem-quote .source { font-size: 0.8rem; color: var(--gray-500); }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .feature-card {
+    padding: 2rem; background: var(--navy-light);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 14px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .feature-card:hover {
+    border-color: rgba(37, 99, 235, 0.3); transform: translateY(-2px);
+  }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .icon-blue { background: var(--blue-glow); }
+  .icon-emerald { background: var(--emerald-glow); }
+  .icon-amber { background: rgba(245, 158, 11, 0.15); }
+  .feature-card h3 {
+    font-size: 1.15rem; color: var(--white); font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .feature-card p { font-size: 0.9rem; color: var(--gray-400); line-height: 1.65; }
+
+  /* WHY NOW */
+  .why-now { background: var(--navy-light); }
+  .timeline {
+    position: relative; padding-left: 2rem;
+    border-left: 2px solid rgba(37, 99, 235, 0.3);
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -2.55rem; top: 0.35rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--blue); border: 3px solid var(--navy-light);
+  }
+  .timeline-item .date {
+    font-size: 0.8rem; color: var(--blue-light); font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-item h3 {
+    font-size: 1.1rem; color: var(--white); font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-item p { font-size: 0.9rem; color: var(--gray-400); }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+  }
+  .pricing-card {
+    padding: 2rem; background: var(--navy-light);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 14px;
+    position: relative; display: flex; flex-direction: column;
+  }
+  .pricing-card.featured {
+    border-color: var(--blue);
+    box-shadow: 0 0 30px var(--blue-glow);
+  }
+  .pricing-popular {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--blue); color: var(--white); font-size: 0.7rem;
+    padding: 0.25rem 1rem; border-radius: 100px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .pricing-card .tier {
+    font-size: 0.85rem; color: var(--blue-light); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;
+  }
+  .pricing-card .price {
+    font-size: 2.5rem; font-weight: 800; color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+  .pricing-card .price span { font-size: 1rem; color: var(--gray-500); font-weight: 400; }
+  .pricing-card .price-note {
+    font-size: 0.8rem; color: var(--gray-500); margin-bottom: 1.5rem;
+  }
+  .pricing-features {
+    list-style: none; margin-bottom: 2rem; flex: 1;
+  }
+  .pricing-features li {
+    padding: 0.4rem 0; font-size: 0.85rem; color: var(--gray-300);
+    display: flex; align-items: flex-start; gap: 0.5rem;
+  }
+  .pricing-features li::before {
+    content: '\2713'; color: var(--emerald); font-weight: 700; flex-shrink: 0;
+  }
+  .pricing-btn {
+    display: block; text-align: center; padding: 0.75rem;
+    border-radius: 10px; text-decoration: none; font-weight: 600;
+    font-size: 0.9rem; transition: all 0.2s;
+  }
+  .pricing-btn.primary { background: var(--blue); color: var(--white); }
+  .pricing-btn.primary:hover { background: var(--blue-light); }
+  .pricing-btn.outline {
+    border: 1px solid rgba(255,255,255,0.15); color: var(--gray-300);
+  }
+  .pricing-btn.outline:hover { border-color: var(--blue); color: var(--white); }
+
+  /* COST COMPARISON */
+  .cost-section { padding-top: 0; }
+  .cost-table {
+    width: 100%; border-collapse: collapse; margin-top: 2rem;
+  }
+  .cost-table th {
+    text-align: left; padding: 1rem 1.25rem; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray-500);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .cost-table td {
+    padding: 1rem 1.25rem; font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .cost-table .risk-cost { color: var(--red); font-weight: 700; }
+  .cost-table .complia-cost { color: var(--emerald); font-weight: 700; }
+
+  /* CTA */
+  .cta-section {
+    text-align: center; padding: 6rem 2rem;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-light) 100%);
+    position: relative;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-size: 2.75rem; font-weight: 800; color: var(--white);
+    margin-bottom: 1rem; position: relative;
+  }
+  .cta-section p {
+    font-size: 1.15rem; color: var(--gray-400); margin-bottom: 2.5rem;
+    max-width: 500px; margin-left: auto; margin-right: auto; position: relative;
+  }
+  .cta-buttons { position: relative; display: flex; gap: 1rem; justify-content: center; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+  }
+  footer p { font-size: 0.85rem; color: var(--gray-600); }
+  footer a { color: var(--blue-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-mockup { max-width: 500px; }
+    .problem-grid { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .problem-quotes { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2.25rem; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.85rem; }
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">complia<span>.ai</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#why-now">Why Now</a>
+    <a href="deck.html">Pitch Deck</a>
+    <a href="#cta" class="nav-cta">Get Early Access</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span class="dot"></span>
+        AI-Powered Compliance Platform
+      </div>
+      <h1>Every agent. Every file.<br><span class="gradient">Always audit-ready.</span></h1>
+      <p>Complia is the AI compliance officer that monitors your entire brokerage 24/7 &mdash; license tracking, transaction auditing, advertising compliance, and fair housing monitoring across all 50 states.</p>
+      <div class="hero-buttons">
+        <a href="#cta" class="btn-primary">Get Early Access &rarr;</a>
+        <a href="deck.html" class="btn-secondary">&#9654; View Pitch Deck</a>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot"></div>
+        <div class="mockup-dot"></div>
+        <div class="mockup-dot"></div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-status status-green"></div>
+        <div class="mockup-agent">Sarah Chen &mdash; License #01234567</div>
+        <div class="mockup-tag tag-compliant">Compliant</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-status status-amber"></div>
+        <div class="mockup-agent">James Rodriguez &mdash; CE Due in 14 days</div>
+        <div class="mockup-tag tag-warning">Action Needed</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-status status-red"></div>
+        <div class="mockup-agent">Mike Thompson &mdash; Missing Buyer Broker Agmt</div>
+        <div class="mockup-tag tag-risk">At Risk</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-status status-green"></div>
+        <div class="mockup-agent">Lisa Park &mdash; All docs verified</div>
+        <div class="mockup-tag tag-compliant">Compliant</div>
+      </div>
+      <div class="mockup-row">
+        <div class="mockup-status status-amber"></div>
+        <div class="mockup-agent">David Kim &mdash; Ad missing brokerage name</div>
+        <div class="mockup-tag tag-warning">Review</div>
+      </div>
+      <div class="mockup-score">
+        <div class="number">87%</div>
+        <div class="label">Brokerage Compliance Score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">The Problem</div>
+      <h2 class="section-title">Managing brokers are drowning in compliance</h2>
+      <p class="section-subtitle">The NAR settlement rewrote the rules. States are fragmenting. And the managing broker is personally liable for every agent's compliance.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-stat">
+        <div class="number red">$200K+</div>
+        <div class="desc">Average negligence lawsuit settlement against a brokerage</div>
+      </div>
+      <div class="problem-stat">
+        <div class="number amber">68%</div>
+        <div class="desc">of brokerages lack the data necessary for compliance</div>
+      </div>
+      <div class="problem-stat">
+        <div class="number blue">106K</div>
+        <div class="desc">brokerages in the US, most without dedicated compliance staff</div>
+      </div>
+      <div class="problem-stat">
+        <div class="number red">$400M+</div>
+        <div class="desc">lost to wire fraud in real estate annually</div>
+      </div>
+    </div>
+    <div class="problem-quotes">
+      <div class="problem-quote">
+        <p>"I have 85 agents across two states. I'm personally liable for every missing buyer broker agreement, every social media post that doesn't include our brokerage name, every expired license I didn't catch."</p>
+        <div class="source">&mdash; Managing Broker, Mid-Size Brokerage</div>
+      </div>
+      <div class="problem-quote">
+        <p>"After the NAR settlement, the rules changed overnight. We're using spreadsheets and the honor system to track compliance. It's only a matter of time before something slips through."</p>
+        <div class="source">&mdash; Operations Director, 150-Agent Brokerage</div>
+      </div>
+      <div class="problem-quote">
+        <p>"One state fine costs more than a year of any software tool. But there's nothing built specifically to prevent these violations before they happen."</p>
+        <div class="source">&mdash; Compliance Officer, National Franchise</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">The Solution</div>
+      <h2 class="section-title">Six modules. One compliance platform.</h2>
+      <p class="section-subtitle">Complia replaces spreadsheets, spot-checks, and hope with continuous AI-powered monitoring across every compliance dimension.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">&#128272;</div>
+        <h3>License & Credential Tracker</h3>
+        <p>Real-time license verification via ARELLO API across all 50 states. CE credit tracking, E&O insurance monitoring, NAR ethics training status. Proactive alerts before anything lapses.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-emerald">&#128196;</div>
+        <h3>Transaction Compliance Engine</h3>
+        <p>AI-powered document completeness checking against state-specific checklists. Buyer broker agreement tracking. Commission disclosure verification. Real-time compliance health score per transaction.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-amber">&#128225;</div>
+        <h3>Advertising & Fair Housing Monitor</h3>
+        <p>AI scans agent social media, websites, and marketing for missing brokerage names, license numbers, EHO logos, team name violations, and biased listing language &mdash; before it goes live.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">&#128218;</div>
+        <h3>Regulatory Intelligence</h3>
+        <p>Monitors state commission bulletins, legislative changes, MLS rule updates, and NAR policy changes. Auto-generates plain-English impact summaries and creates compliance tasks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-emerald">&#128176;</div>
+        <h3>Trust Account & Financial Compliance</h3>
+        <p>AI-assisted escrow reconciliation with anomaly detection. Commingling risk flagging. Audit-ready reports formatted to each state's requirements. Wire fraud detection.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-amber">&#128200;</div>
+        <h3>Training & Supervision Dashboard</h3>
+        <p>Tracks all compliance training per agent per state. Identifies at-risk agents by pattern analysis. Generates supervision documentation proving duty-to-supervise fulfillment. Predictive risk scoring.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section class="why-now" id="why-now">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Why Now</div>
+      <h2 class="section-title">A once-in-a-generation compliance shift</h2>
+      <p class="section-subtitle">The NAR settlement, state regulatory fragmentation, and emerging AI governance rules have created the perfect storm.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="date">August 2024</div>
+        <h3>NAR Settlement Takes Effect</h3>
+        <p>Mandatory written buyer broker agreements before every showing. Elimination of MLS compensation fields. New commission disclosure rules. The biggest compliance shift in decades.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="date">2024 &ndash; 2025</div>
+        <h3>State Regulatory Fragmentation Accelerates</h3>
+        <p>50 states, 50 different rule sets &mdash; all diverging post-settlement. Different CE hours, forms, disclosure requirements, advertising rules, and trust account regulations. Multi-state compliance becomes exponentially harder.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="date">2025 &ndash; 2026</div>
+        <h3>New Compliance Categories Emerge</h3>
+        <p>Colorado AI Act (bias audits for housing AI). 15&ndash;20 states with data privacy laws. Expanded climate/environmental disclosure. Cybersecurity requirements for brokerages.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="date">2026+</div>
+        <h3>The Managing Broker's Burden Peaks</h3>
+        <p>"Failure to supervise" becomes the #1 charge against managing brokers. E&O insurers begin requiring documented compliance programs. License renewal tied to demonstrated compliance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">One prevented violation pays for years of Complia</h2>
+      <p class="section-subtitle">Transparent pricing. No hidden fees. Start free, scale as you grow.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="tier">Free</div>
+        <div class="price">$0</div>
+        <div class="price-note">Up to 5 agents</div>
+        <ul class="pricing-features">
+          <li>License status verification</li>
+          <li>Basic compliance checklist</li>
+          <li>1 state coverage</li>
+          <li>Email alerts</li>
+        </ul>
+        <a href="#cta" class="pricing-btn outline">Start Free</a>
+      </div>
+      <div class="pricing-card">
+        <div class="tier">Starter</div>
+        <div class="price">$12 <span>/agent/mo</span></div>
+        <div class="price-note">5&ndash;25 agents</div>
+        <ul class="pricing-features">
+          <li>Everything in Free</li>
+          <li>License & CE tracking</li>
+          <li>Document completeness checker</li>
+          <li>Compliance alerts & reminders</li>
+          <li>Up to 3 states</li>
+        </ul>
+        <a href="#cta" class="pricing-btn outline">Get Started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-popular">Most Popular</div>
+        <div class="tier">Pro</div>
+        <div class="price">$25 <span>/agent/mo</span></div>
+        <div class="price-note">25&ndash;200 agents</div>
+        <ul class="pricing-features">
+          <li>Everything in Starter</li>
+          <li>AI advertising scanner</li>
+          <li>Fair housing listing monitor</li>
+          <li>Regulatory change alerts</li>
+          <li>Trust account tools</li>
+          <li>All 50 states</li>
+          <li>Audit-ready reporting</li>
+        </ul>
+        <a href="#cta" class="pricing-btn primary">Get Early Access</a>
+      </div>
+      <div class="pricing-card">
+        <div class="tier">Enterprise</div>
+        <div class="price">Custom</div>
+        <div class="price-note">200+ agents / franchises</div>
+        <ul class="pricing-features">
+          <li>Everything in Pro</li>
+          <li>API access & SSO</li>
+          <li>Custom integrations</li>
+          <li>Dedicated compliance advisor</li>
+          <li>Predictive risk scoring</li>
+          <li>White-label options</li>
+          <li>Franchise-wide dashboards</li>
+        </ul>
+        <a href="#cta" class="pricing-btn outline">Contact Sales</a>
+      </div>
+    </div>
+
+    <!-- COST COMPARISON -->
+    <div style="margin-top: 4rem;">
+      <h3 style="color: var(--white); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">The cost of NOT having Complia</h3>
+      <p style="color: var(--gray-400); font-size: 0.95rem; margin-bottom: 1.5rem;">A 50-agent brokerage on Pro pays $1,250/month. Compare that to:</p>
+      <table class="cost-table">
+        <tr>
+          <th>Compliance Risk</th>
+          <th>Cost Without Complia</th>
+          <th>Complia Equivalent</th>
+        </tr>
+        <tr>
+          <td>Single state fine</td>
+          <td class="risk-cost">$2,500 &ndash; $25,000</td>
+          <td class="complia-cost">= 2&ndash;20 months of Complia</td>
+        </tr>
+        <tr>
+          <td>NAR ethics complaint</td>
+          <td class="risk-cost">Up to $15,000</td>
+          <td class="complia-cost">= 12 months of Complia</td>
+        </tr>
+        <tr>
+          <td>Negligence lawsuit</td>
+          <td class="risk-cost">$50,000 &ndash; $200,000</td>
+          <td class="complia-cost">= 3&ndash;13 years of Complia</td>
+        </tr>
+        <tr>
+          <td>License suspension</td>
+          <td class="risk-cost">Existential (lost income for entire brokerage)</td>
+          <td class="complia-cost">Priceless</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <h2>Ready to make your brokerage<br>airtight?</h2>
+  <p>Join the waitlist for early access. Be among the first brokerages to have an AI compliance officer that never sleeps.</p>
+  <div class="cta-buttons">
+    <a href="#" class="btn-primary">Join the Waitlist &rarr;</a>
+    <a href="deck.html" class="btn-secondary">&#128196; View Full Pitch Deck</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p style="margin-bottom: 0.5rem;">&copy; 2026 Complia. AI-powered compliance for real estate brokerages.</p>
+  <p><a href="deck.html">Investor Pitch Deck</a> &nbsp;&bull;&nbsp; <a href="mailto:hello@complia.ai">hello@complia.ai</a></p>
+</footer>
+
+</body>
+</html>
